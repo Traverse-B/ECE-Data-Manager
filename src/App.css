@@ -3,18 +3,18 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 20vmin;
   pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    animation: App-logo-spin infinite 5s linear;
   }
 }
 
 .App-header {
-  background-color: #b6052b;
+  background-color: #b61a05;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -51,21 +51,325 @@ input[type=password], select {
 /* Style the submit button */
 input[type=submit] {
   width: 100%;
-  background-color: #04AA6D;
+  background-color: #909693;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
-  border: none;
-  border-radius: 4px;
+  border: 1px solid #3d3a39;
+  border-radius: 3px;
   cursor: pointer;
+  font-size: calc(10px + 2vmin);
 }
 
 /* Add a background color to the submit button on mouse-over */
 input[type=submit]:hover {
-  background-color: #45a049;
+  background-color: #797a79;
 }
 
 label {
   text-align: left;
   display: inline-block
 }
+
+.review {
+  border-radius: 15px;
+  border: 5px black;
+  background: #3f3f3e9d;
+  padding: 20px;
+  box-sizing: content-box;
+  max-width: 350px;
+}
+
+.question {
+  border-radius: 15px;
+  border: 1px solid black;
+  background: #3f3f3e9d;
+  padding: 20px;
+  box-sizing: content-box;
+  max-width: 350px;
+}
+
+.submit {
+  
+}
+
+.dataform {
+  border-radius: 5px;
+  border: 5px black;
+  padding: 20px;
+  display: inline;
+}
+
+.reviewbutton {
+  width: 30%;
+  background-color: #646665;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: 2px solid #700e01;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: calc(10px + 2vmin);
+  display: inline;
+}
+
+.numberinput {
+  width: 14%;
+  height: 30px;
+  font-size: calc(6px + 2vmin);
+}
+
+.choice {
+  display: grid;
+  border-radius: 15px;
+  border: 1px solid black;
+  background: #2c2b2bb2;
+  padding: 10px;
+  box-sizing: content-box;
+  width: 20vw;
+  color: white;
+  font-size: calc(6px + 2vmin);
+}
+
+.choice-header {
+  background-color: #dad8cd;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: rgb(44, 44, 42);
+}
+
+.choice-body {
+  background-image: url('space.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.choice-row {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  margin: 30px;
+}
+
+.choice:hover {
+  background: #3f3f3ecb;
+}
+
+.spacer {
+  width: 20px;
+}
+
+.studentselect {
+  width: 30vh;
+} 
+
+.studentchoice {
+  display: grid;
+  border-radius: 15px;
+  border: 1px solid black;
+  background: #3f3f3e9d;
+  padding: 20px;
+  box-sizing: content-box;
+  max-width: 350px;
+  max-height: 70px;
+  color: white;
+  font-size: calc(6px + 2vmin);
+}
+
+.studentchoice:hover {
+  background: #3f3f3ecb;
+}
+
+.choice-footer {
+  background-color: #dad8cd;
+  min-height: 100vh;
+  flex-direction: row;
+  align-items: center;
+  padding: 20px;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: rgb(44, 44, 42);
+}
+
+.App-header {
+  background-color: #dad8cd;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: rgb(46, 44, 44);
+}
+.App-header {
+  background-color: #dad8cd;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: rgb(46, 44, 44);
+  box-shadow: 0 10px 20px 0 rgba(rgb(56, 53, 53), .25);
+}
+
+
+
+.studentSelect {
+  max-width: 100vw;
+}
+
+.card {
+  margin-top: 2vh auto;
+  margin-bottom: 2vh auto;
+	display: flex;
+	flex-direction: column;
+	width: 50vw;
+  min-width: 350px;
+	background-color: #FFF;
+	border-radius: 10px;
+	box-shadow: 0 10px 20px 0 rgba(rgb(56, 53, 53), .25);
+	padding: .75rem;
+}
+
+.iep-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around center;
+  font-size: calc(10px + 2vmin);
+  color: rgb(46, 44, 44);
+  background-color: #dad8cd;
+  border-bottom: brown solid 2px;
+  position: relative;  
+}
+
+.iep-footer {
+  padding: 20px;
+  align-items: center;
+  justify-content: space-around center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  background-color: #2d865a;
+  min-height: 60vh;
+  background-image: url('space.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.present {
+  border: 1px solid rgb(114, 114, 108);
+  box-shadow: 0 10px 20px 0 rgba(rgb(56, 53, 53), .25);
+}
+
+.goalBox {
+  margin: 1rem auto;
+	width: 95%; 
+	background-color: rgb(202, 195, 195);
+	box-shadow: 0 10px 20px 0 rgba(rgb(56, 53, 53), .25);
+  border: 3px inset rgb(235, 227, 227);
+  text-align: left;
+  justify-items: left;
+}
+
+.goal {
+  background-color: rgb(202, 195, 195);
+  border: 1px solid rgb(41, 41, 39);
+  padding-inline-start: 0.5rem;
+  font-size: 15px;
+  flex-direction: row;
+  display: flex;
+}
+
+.goal:focus {
+  background-color:rgba(rgb(6, 141, 141), .25)
+}
+
+.goal:hover {
+  background-color: #9a9e9a;
+} 
+
+.longSpacer {
+  width: 5vw;
+}
+
+.looongSpacer {
+  width: 20vw;
+}
+
+.goalForm {
+  margin: 2rem auto;
+	display: flex;
+	flex-direction: column;
+	width: 54vw;
+  min-width: 350px;
+	background-color: #FFF;
+	border-radius: 10px;
+	box-shadow: 0 10px 20px 0 rgba(rgb(56, 53, 53), .25);
+	padding: .75rem;
+  position: fixed;
+  top: 0px;
+  left: vp/2;
+  z-index: 9;
+}
+
+.add-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around center;
+  font-size: calc(10px + 2vmin);
+  color: rgb(46, 44, 44);
+  position: relative;
+  
+}
+
+.blur-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around center;
+  font-size: calc(10px + 2vmin);
+  color: rgb(46, 44, 44);
+  background-color: #dad8cd;
+  border-bottom: brown solid 2px;
+  position: relative;
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+}
+
+.submitStyle {
+  width: 100%;
+  background-color: #909693;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: 1px solid #3d3a39;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: calc(10px + 2vmin);
+  max-width: 50vw;
+}
+
+.submitStyle:hover {
+  background-color: #797a79;
+}
+
+.customDatePickerWidth, 
+.customDatePickerWidth > div.react-datepicker-wrapper, 
+.customDatePickerWidth > div > div.react-datepicker__input-container
+.customDatePickerWidth > div > div.react-datepicker__input-container input {
+   width: 100%;
+}
+
+
+
