@@ -162,8 +162,8 @@ export class IepForm extends React.Component {
         e.preventDefault();
         const area = document.getElementById("area").value;
         if (area === "none") return;
-        const goal = document.getElementById("goaldescription").value;
-        const question = document.getElementById("dataquestion").value;
+        const goal = document.getElementById("goaldescription").value.trim();
+        const question = document.getElementById("dataquestion").value.trim();
         const bool = document.getElementById("bool");
         const type = bool.checked ? "boolean" : "percentage";
         document.getElementById("iep-body").className = "iep-body";
@@ -196,6 +196,27 @@ export class IepForm extends React.Component {
         if (!window.confirm(`Once data collection is set, it cannot be deleted (only overwritten).  Continue? `)) return;
         const startDate = this.state.date;
         const endDate = this.state.endDate;
+        // Handle metadata selection
+        const taskData = document.getElementById("taskData").checked;
+        const behaviorData = document.getElementById("behaviorData").checked;
+        const goals = this.state.goals.slice(0);
+        if (taskData) {
+            goals.push({
+                area: "meta",
+                goal: "Complete work",
+                data_question: `Did ${this.state.student.first_name} complete their work today?`,
+                response_type: "Boolean"
+
+            })
+        }
+        if (behaviorData) {
+            goals.push({
+                area: "meta",
+                goal: "Meet behavior expectations",
+                data_question: `Did ${this.state.student.first_name} meet behavior expectations?`,
+                response_type: "Boolean"
+            })
+        }
         const iepOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -203,9 +224,10 @@ export class IepForm extends React.Component {
                 start_date: startDate,
                 end_date: endDate,
                 student_id: this.state.student.student_id,
-                goals: this.state.goals
+                goals: goals
             })    
         }
+        //const POSTING = false;
         const iepPosted = POSTING? await fetch(`${ROUTE}/students/${this.state.student.student_id}/iep`, iepOptions)
             : {ok: true};
         if (!iepPosted.ok) {
@@ -299,11 +321,13 @@ export class IepForm extends React.Component {
 
     get form() {
         return (
-            <div>
+            <div >
+                <br/>
                 <div class="card" style={this.cardFormat}>
                     <h3>{`${this.state.student.first_name} ${this.state.student.last_name}`}</h3> 
                     <p>{`Disability: ${this.state.student.disability}`}</p>
                 </div>
+                <br/>
                 <div class="card" style={this.datesFormat}>
                     <div >
                         <p>Start date</p>
@@ -315,17 +339,33 @@ export class IepForm extends React.Component {
                         <DatePicker id="end_date" onChange={this.handleEndChange} selected={this.state.endDate} />
                     </div>
                 </div>
+                <br/>
                 <div class="card" style={this.cardFormat}>
-                    <h3>Goals</h3>
+                    <h3>IEP/BIP goals</h3>
                     <div style={this.rowForm}>
-                        <button onClick={this.handleAddGoal}>Add goal</button>
-                        {this.state.goal && <button onClick={this.handleEditGoal}>Edit goal</button>}
-                        {this.state.goal && <button onClick={this.handleDeleteGoal}>Delete goal</button>}
+                        <button onClick={this.handleAddGoal}>Add data collection for IEP/BIP goals</button>
+                        {this.state.goal && <button onClick={this.handleEditGoal}>Edit</button>}
+                        {this.state.goal && <button onClick={this.handleDeleteGoal}>Delete</button>}
                     </div>
                     <div id="goalBox" class="goalBox" style={this.height}>
                         {this.goals}
                     </div>
                 </div>
+                <br/>
+                <div class="card" style={this.cardFormat}>
+                    <h3>Collect additional data?</h3>
+                    <div style={this.rowForm}>
+                        <input id="taskData" type="checkbox" />
+                        <span class='spacer'/>
+                        <label for="taskData">Ask about task completion</label>
+                    </div>
+                    <div style={this.rowForm}>
+                        <input id="behaviorData" type="checkbox" name="behaviorData"/>
+                        <span class='spacer'/>
+                        <label for="behaviorData">Ask about meeting behavior expectations</label>
+                    </div>    
+                </div>
+                <br/>
             </div>
         )
     }
@@ -338,12 +378,13 @@ export class IepForm extends React.Component {
         const isPercent = this.state.edit && this.state.goal.response_type === "percentage";
         return (
                 <form class="goalForm" style={this.cardFormat} onSubmit={this.handleSubmitGoal}>
-                    <p>Set up data collection for IEP goal</p>
+                    <p>Set up data collection for IEP/BIP goal</p>
                     <label for="area">Teacher Responsible</label>
                     <select name="area" id="area" required >
-                        <option value="English" selected={selected === "English"}>English</option>
-                        <option value="Math" selected={selected === "Math"}>Math</option>
+                        <option value="English" selected={selected === "English"}>English (only English teachers will provide data)</option>
+                        <option value="Math" selected={selected === "Math"}>Math (only Math teachers will provide data)</option>
                         <option value="All" selected={selected === "All" || !selected}>All</option>
+                        <option value="BIP" selected={selected === "BIP"}>BIP (question relates to scholars BIP)</option>
                     </select>
                     <br/>
                     <label for="textarea">Goal description</label>
@@ -390,7 +431,7 @@ export class IepForm extends React.Component {
                 </div>
             )  
         } else {
-            const buttonName = this.state.confirmed? 'Change' : 'Submit';
+            const buttonName = this.state.confirmed? 'Change' : 'Add Data Collection';
             return (
                 <div className="App">
                     <body class="add-body">

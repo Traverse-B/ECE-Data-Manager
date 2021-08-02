@@ -7,10 +7,11 @@ import {BackDate} from './DataMode/BackDate';
 import {IepMain} from './IepMode/IepMain';
 import {StudentMain} from './StudentMode/StudentMain';
 import {TeacherMain} from './TeacherMode/TeacherMain';
+import {ReportMain} from './ReportMode/ReportMain';
 
-const mode = 'PRODUCTION';
+const mode = 'LOCAL';
 export const POSTING = true;
-export const ROUTE = mode === 'LOCAL' ? 'http://localhost:3001' : 'http://192.168.1.43:3001';
+export const ROUTE = mode === 'LOCAL' ? 'http://localhost:3001' : 'http://74.132.37.108:3001';
 
 class Main extends React.Component {
 
@@ -29,6 +30,7 @@ class Main extends React.Component {
     this.handleChooseIEP = this.handleChooseIEP.bind(this);
     this.handleChooseStudents = this.handleChooseStudents.bind(this);
     this.handleChooseTeachers = this.handleChooseTeachers.bind(this);
+    this.handleChooseReport = this.handleChooseReport.bind(this);
   }
 
   authenticate(e) {
@@ -50,6 +52,7 @@ class Main extends React.Component {
                           onChooseIEP={this.handleChooseIEP}
                           onChooseStudents={this.handleChooseStudents}
                           onChooseTeachers={this.handleChooseTeachers}
+                          onChooseReport={this.handleChooseReport}
                         />
           this.setState({
             page: nextPage,
@@ -100,6 +103,7 @@ class Main extends React.Component {
               onChooseIEP={this.handleChooseIEP}
               onChooseStudents={this.handleChooseStudents}
               onChooseTeachers={this.handleChooseTeachers}
+              onChooseReport={this.handleChooseReport}
             />
     })
   }
@@ -133,6 +137,16 @@ class Main extends React.Component {
     })
   }
 
+  handleChooseReport() {
+    this.setState({
+      page: <ReportMain
+              back={this.returnToChoices}
+              user={this.state.user}
+              login={this.state.login}
+            />
+    })
+  }
+
   handleCompleted() {
     const nextPage = <Choices 
                         user={this.state.user} 
@@ -141,6 +155,10 @@ class Main extends React.Component {
                         completed={true}
                         onChooseData={this.handleChooseData}
                         onChooseBackDate={this.handleChooseBackDate}
+                        onChooseIEP={this.handleChooseIEP}
+                        onChooseStudents={this.handleChooseStudents}
+                        onChooseTeachers={this.handleChooseTeachers}
+                        onChooseReport={this.handleChooseReport}
                       />;
     this.setState({
       page: nextPage,
@@ -156,6 +174,9 @@ class Main extends React.Component {
                         onChooseData={this.handleChooseData}
                         onChooseBackDate={this.handleChooseBackDate}
                         onChooseIEP={this.handleChooseIEP}
+                        onChooseStudents={this.handleChooseStudents}
+                        onChooseTeachers={this.handleChooseTeachers}
+                        onChooseReport={this.handleChooseReport}
                       />;
     this.setState({
       page: nextPage,

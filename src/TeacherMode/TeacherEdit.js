@@ -171,10 +171,10 @@ export class TeacherEdit extends React.Component {
     async submitForm(e) {
         e.preventDefault();
         if (this.state.blur) return;
-        const login = document.getElementById('login').value;
-        const name = document.getElementById('name').value;
-        const password = document.getElementById('password').value;
-        const email = document.getElementById('email').value;
+        const login = document.getElementById('login').value.trim();
+        const name = document.getElementById('name').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const email = document.getElementById('email').value.trim();
         const user_type = document.getElementById('user_type').value;
         let assignedStudents = this.state.assignedStudents.slice(0);
         assignedStudents.forEach(teacher => {

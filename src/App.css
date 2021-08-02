@@ -360,6 +360,12 @@ label {
   max-width: 50vw;
 }
 
+.chart {
+  height: 40vh;
+  width: 60vw;
+  color: rgb(214, 223, 212);
+}
+
 .submitStyle:hover {
   background-color: #797a79;
 }

@@ -31,7 +31,7 @@ export class StudentEdit extends React.Component {
 
     async componentDidMount() {
         document.getElementById(this.state.editStudent.disability.slice(0,3)).selected = true;
-        const res = await fetch(`${ROUTE}/students/${this.state.editStudent.student_id}/caseload`);
+        const res = await fetch(`${ROUTE}/students/${this.state.editStudent.student_id}/assign`);
         const scheduledTeachers = await res.json();
         if (!res.ok) {
             alert(`There was a problem loading this page.  Please try again.`);

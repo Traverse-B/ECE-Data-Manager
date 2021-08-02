@@ -79,10 +79,13 @@ export class StudentForm extends React.Component {
             coteacher: answer
         })
     }
+
     scheduleTeacher(e) {
         e.preventDefault();
         const sel = document.getElementById('teacherList');
+        if (sel.value === 'none') return;
         const scheduledRole = document.getElementById('role').value;
+        if (scheduledRole === 'none') return;
         const otherTeacher = document.getElementById('coteacher').checked;
         const scheduledCoteacher = otherTeacher? document.getElementById("coteacherList").value : null;
         const scheduledTeachers = this.state.scheduledTeachers? this.state.scheduledTeachers.slice(0) : []

@@ -23,16 +23,16 @@ export class TeacherForm extends React.Component {
 
     async submitForm(e) {
         e.preventDefault();
-        const login = document.getElementById('login').value;
+        const login = document.getElementById('login').value.trim();
         // Check to ensure ID doesn't exist in database
         const loginUsed = this.state.teachers.findIndex(teacher => teacher.login === login) !== -1;
         if (loginUsed) {
             alert(`Teacher has already been created with this login.  Please use another login or edit the teacher profile created for this login`);
             return;
         }
-        const password = document.getElementById('password').value;
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value.trim();
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
         const userType = document.getElementById('usertype').value;
         const postOptions = {
             method: 'POST',
@@ -42,7 +42,8 @@ export class TeacherForm extends React.Component {
                 secret: password,
                 email: email,
                 name: name,
-                user_type: userType
+                user_type: userType, 
+                active: true
             })
         }
         const dataPosted = POSTING ? await fetch(`${ROUTE}/teachers`, postOptions) : {ok: true};

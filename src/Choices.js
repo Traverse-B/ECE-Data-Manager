@@ -47,6 +47,13 @@ export class Choices extends React.Component {
             choiceArray.push(
                 this.choice('Manage Students', 'Create and edit student roster', this.props.onChooseStudents)
             );
+            choiceArray.push(
+                this.choice(
+                    `Progress Monitoring`,
+                    (<div>{'Get an update on progress'}<br/> {`or print a progress report`}</div>),
+                    this.props.onChooseReport
+                )
+            )
         }
         if (this.state.isAdmin) {
             choiceArray.push(
