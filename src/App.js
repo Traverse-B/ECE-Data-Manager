@@ -9,9 +9,8 @@ import {StudentMain} from './StudentMode/StudentMain';
 import {TeacherMain} from './TeacherMode/TeacherMain';
 import {ReportMain} from './ReportMode/ReportMain';
 
-const mode = 'LOCAL';
 export const POSTING = true;
-export const ROUTE = mode === 'LOCAL' ? 'http://localhost:3001' : 'http://74.132.37.108:3001';
+export const ROUTE = 'https://ece-data-wizard.herokuapp.com';
 
 class Main extends React.Component {
 
