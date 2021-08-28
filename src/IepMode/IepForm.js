@@ -213,7 +213,7 @@ export class IepForm extends React.Component {
             goals.push({
                 area: "meta",
                 goal: "Complete work",
-                data_question: `Did ${this.state.student.first_name} complete their work today?`,
+                data_question: `Did ${this.state.student.first_name} complete work today?`,
                 response_type: "Boolean",
                 baseline: 0,
                 goal_data: 0,
@@ -241,7 +241,7 @@ export class IepForm extends React.Component {
                 goals: goals
             })    
         }
-        //const POSTING = false;
+        const POSTING = true;
         const iepPosted = POSTING? await fetch(`${ROUTE}/students/${this.state.student.student_id}/iep`, iepOptions)
             : {ok: true};
         if (!iepPosted.ok) {
