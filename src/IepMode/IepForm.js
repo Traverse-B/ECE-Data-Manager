@@ -400,7 +400,7 @@ export class IepForm extends React.Component {
                         </div>
                         <div>
                             <label for="description">Area</label>
-                            <select>
+                            <select id="description" name="description">
                                 <option value="Reading Fluency">Reading Fluency</option>
                                 <option value="Reading Comprehension">Reading Comprehension</option>
                                 <option value="Math Calculation">Math Calculation</option>
