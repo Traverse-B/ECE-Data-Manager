@@ -20,36 +20,24 @@ export class DataForm extends React.Component {
     }
 
     async componentDidMount() {
-        if (this.props.backdated) {
+        
             const options = {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
-                    date: this.props.backdated,
+                    date: this.props.backdated || new Date(),
                     teacher: this.props.login
                 })
             }
-            const goalRes = await fetch(`${ROUTE}/students/${this.state.page}/backdateiep`, options);
+            const goalRes = await fetch(`${ROUTE}/students/${this.props.student.student_id || this.props.student.id}/backdateiep`, options);
             const goalData = await goalRes.json();
             this.setState({
-                studentName: this.props.student.name,
+                studentName: this.props.student.name || this.props.student.first_name + ' ' + this.props.student.last_name,
                 goalData: goalData,
                 isLoaded: true,
                 backdated: this.props.backdated
             }) 
-        } else {
-            const goalRes = await fetch(`${ROUTE}/iep/${this.state.page}/goals`);
-            let goalData = await goalRes.json();
-            // Filter out academic
-            goalData = goalData.filter(goal => goal.area === this.props.student.role || goal.area === 'All');
-            if (goalData) {
-                this.setState({
-                    studentName: `${this.props.student.first_name} ${this.props.student.last_name}`,
-                    goalData: goalData,
-                    isLoaded: true 
-                })
-            }
-        }
+        
     }
 
     async wasPresent(e) {
@@ -73,7 +61,7 @@ export class DataForm extends React.Component {
         const responses = this.state.goalData.map(goal => {
             const dataType = goal.response_type === "boolean" ? "Bool" : "Percent";
             const goalResponse = document.getElementById(`${goal.id}`).value;
-            if (goalResponse === 'none' || goalResponse ==='') return false;
+            if (goalResponse === 'none' || goalResponse ==='' && dataType === "Bool") return false;
             const responder = this.props.login;
             const timestamp = this.state.backdated || new Date().toISOString();
             return {
@@ -108,22 +96,31 @@ export class DataForm extends React.Component {
                 if (goal.response_type === "boolean") {
                     reviewPage.push(
                         (
-                            <div class="card" style={this.cardFormat}>
-                                <div >
-                                    <p>{goal.data_question}</p>
-                                    <h3>{document.getElementById(goal.id).value == 100 ? 'Yes' : 'No'}</h3>
+                            
+                            <div style={{paddingBottom: "10px"}}>
+                                <div class="card" style={this.cardFormat}>
+                                    <div >
+                                        <p>{goal.data_question}</p>
+                                        <h3>{document.getElementById(goal.id).value == 100 ? 'Yes' : 'No'}</h3>
+                                    </div>
+                                    <br></br>
                                 </div>
-                                <br></br>
                             </div>
                         )
                     ); 
                 } else {
+                    let report = document.getElementById(goal.id).value;
+                    if (report === '') {
+                        report = 'No data provided.  Remember, academic data must be provided every two weeks.'
+                    } else {
+                        report += '%';
+                    }
                     reviewPage.push(
                         (
                             <div class="card" style={this.cardFormat}>
                                 <div >
                                     <p>{goal.data_question}</p>
-                                    <h3>{document.getElementById(goal.id).value + '%'}</h3>
+                                    <h3>{report}</h3>
                                 </div>
                                 <br></br>
                             </div>
@@ -160,7 +157,7 @@ export class DataForm extends React.Component {
 
             })
         }
-        const posting = false; // <--- Disable post for testing here!
+        const posting = true; // <--- Disable post for testing here!
         const attendanceSet = posting? await fetch(`${ROUTE}/meta/attendance`, attendanceOptions) : {ok: true};
         // Check response 
         if (!attendanceSet.ok) {
@@ -248,7 +245,7 @@ export class DataForm extends React.Component {
                         <label for={goal.id}>{goal.data_question}</label>
                         <br/>
                         <input class="numberinput" type="number" min="0" max="100" step="1" id={goal.id}></input>
-                        <br/>
+                        <p style={{fontSize: "14px", color: "red"}}>*Remember, academic data must be provided at least once every two weeks!</p>
                     </div>   
                 )
             }   

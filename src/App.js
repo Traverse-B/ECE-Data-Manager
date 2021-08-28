@@ -10,7 +10,7 @@ import {TeacherMain} from './TeacherMode/TeacherMain';
 import {ReportMain} from './ReportMode/ReportMain';
 
 export const POSTING = true;
-export const ROUTE = 'https://ece-data-wizard.herokuapp.com';
+export const ROUTE = 'http://localhost:3001' //'https://ece-data-wizard.herokuapp.com';
 
 class Main extends React.Component {
 

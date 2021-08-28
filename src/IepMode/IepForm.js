@@ -166,6 +166,9 @@ export class IepForm extends React.Component {
         const question = document.getElementById("dataquestion").value.trim();
         const bool = document.getElementById("bool");
         const type = bool.checked ? "boolean" : "percentage";
+        const baseline = parseInt(document.getElementById("baseline").value);
+        const goal_percent = parseInt(document.getElementById("goal_percent").value);
+        const description = document.getElementById('description').value;
         document.getElementById("iep-body").className = "iep-body";
         document.getElementById("iep-footer").className = "iep-footer";
         const goals = this.state.goals.slice(0);
@@ -174,14 +177,20 @@ export class IepForm extends React.Component {
                 area: area,
                 goal: goal,
                 data_question: question, 
-                response_type: type
+                response_type: type,
+                baseline: baseline,
+                goal_percent: goal_percent,
+                description: description
             }
         } else {
             goals.push({
                 area: area,
                 goal: goal,
                 data_question: question,
-                response_type: type
+                response_type: type,
+                baseline: baseline,
+                goal_percent: goal_percent,
+                description: description
             });
         }
         
@@ -379,13 +388,34 @@ export class IepForm extends React.Component {
         return (
                 <form class="goalForm" style={this.cardFormat} onSubmit={this.handleSubmitGoal}>
                     <p>Set up data collection for IEP/BIP goal</p>
-                    <label for="area">Teacher Responsible</label>
-                    <select name="area" id="area" required >
-                        <option value="English" selected={selected === "English"}>English (only English teachers will provide data)</option>
-                        <option value="Math" selected={selected === "Math"}>Math (only Math teachers will provide data)</option>
-                        <option value="All" selected={selected === "All" || !selected}>All</option>
-                        <option value="BIP" selected={selected === "BIP"}>BIP (question relates to scholars BIP)</option>
-                    </select>
+                    <div style={{flexDirection: "row", display: "flex"}}>
+                        <div>
+                            <label for="area">Teacher Responsible</label>
+                            <select name="area" id="area" required >
+                                <option value="English" selected={selected === "English"}>English (only English teachers will provide data)</option>
+                                <option value="Math" selected={selected === "Math"}>Math (only Math teachers will provide data)</option>
+                                <option value="All" selected={selected === "All" || !selected}>All</option>
+                                <option value="BIP" selected={selected === "BIP"}>BIP (question relates to scholars BIP)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="description">Area</label>
+                            <select>
+                                <option value="Reading Fluency">Reading Fluency</option>
+                                <option value="Reading Comprehension">Reading Comprehension</option>
+                                <option value="Math Calculation">Math Calculation</option>
+                                <option value="Math Comprehension">Math Comprehension</option>
+                                <option value="Written Expression">Written Expression</option>
+                                <option value="Communication">Communication</option>
+                                <option value="Self-Advocacy">Self-Advocacy</option>
+                                <option value="Behavior">Behavior</option>
+                                <option value="Task Completion">Task Completion</option>
+                                <option value="Adaptive Skills">Adaptive Skills</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    
                     <br/>
                     <label for="textarea">Goal description</label>
                     <textarea id="goaldescription" name="textarea" rows="5" required placeholder="*Copy goal from IEP here*"
@@ -397,19 +427,37 @@ export class IepForm extends React.Component {
                         {this.state.edit ? dataQuestion : ''}
                     </textarea>
                     <br/>
-                    <label for="type">Response Type</label>
                     <div style={{flexDirection: "row", display: "flex"}}>
-                        {isBoolean ? <input type="radio" id="bool" name="type" value="boolean" checked ></input> :
-                            <input type="radio" id="bool" name="type" value="boolean" ></input>}
-                        <label for="bool" style={{fontSize: 16}}>Yes/No</label>
+                        <div>
+                            <label for="type">Response Type</label>
+                            <div style={{flexDirection: "row", display: "flex"}}>
+                                {isBoolean ? <input type="radio" id="bool" name="type" value="boolean" checked ></input> :
+                                    <input type="radio" id="bool" name="type" value="boolean" ></input>}
+                                <label for="bool" style={{fontSize: 16}}>Yes/No</label>
+                            </div>
+                            <div style={{flexDirection: "row", display: "flex"}}>
+                                {isPercent ? <input type="radio" id="percent" name="type" checked
+                                    value="percentage" required ></input> : 
+                                    <input type="radio" id="percent" name="type" 
+                                    value="percentage" required ></input>}
+                                <label for="percent" style={{fontSize: 16} } checked >Percent</label>
+                            </div>
+                        </div>
+                        <span class="longSpacer"></span>
+                        <div>
+                            <label for="baseline">Baseline</label>
+                            <span class="spacer"/>
+                            <input type="number" id="baseline" max="100" min="0"></input>
+                        </div>
+                        <span class="longSpacer"></span>
+                        <div>
+                            <label for="goal_percent">Goal Percent</label>
+                            <span class="spacer"/>
+                            <input type="number" id="goal_percent" max="100" min="0"></input>
+                        </div>
+                        
                     </div>
-                    <div style={{flexDirection: "row", display: "flex"}}>
-                        {isPercent ? <input type="radio" id="percent" name="type" checked
-                               value="percentage" required ></input> : 
-                               <input type="radio" id="percent" name="type" 
-                               value="percentage" required ></input>}
-                        <label for="percent" style={{fontSize: 16} } checked >Percent</label>
-                    </div>
+                    
                     <div style={this.rowForm}>
                         <span class="looongSpacer"></span>
                         <button type="submit">Add Goal</button>
