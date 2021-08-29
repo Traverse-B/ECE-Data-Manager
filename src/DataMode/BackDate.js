@@ -36,10 +36,16 @@ export class BackDate extends React.Component {
         const res = await fetch(`${ROUTE}/teachers/${this.state.login}/missingdata`);
         const missing = await res.json();
         if (missing && missing.length > 0) {
+            missing.forEach(missed => {
+              let temp = new Date(missed.date);
+              temp.setHours(temp.getHours() + 4);
+              missed.date = temp;  
+            })
             this.setState({
                 isLoaded: true,
                 missing: missing,
-                date: new Date(missing[0].date)
+                date: missing[0].date,
+                dates: missing.map(missed => missed.date)
             })
         } else {
             this.setState({
@@ -211,7 +217,7 @@ export class BackDate extends React.Component {
                         <form>
                             {!this.state.isLoaded && <img src={logo} className="App-logo" alt="logo" />}
                             {this.state.isLoaded && <h3>Which date do you want to enter data for?</h3>}
-                            {this.state.isLoaded && <DatePicker includeDates={this.dates} highlightDates={this.dates} inline selected={this.state.date} onChange={this.handleChange} />}
+                            {this.state.isLoaded && <DatePicker includeDates={this.state.dates} highlightDates={this.state.dates} inline selected={this.state.date} onChange={this.handleChange} />}
                             {this.state.isLoaded && <button onClick={this.onChooseDate}>Let's Go!</button>}
                         </form>                    
                     </div>

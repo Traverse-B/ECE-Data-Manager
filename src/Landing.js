@@ -41,10 +41,12 @@ export class Landing extends React.Component {
           </select>
           <label for="password">Password</label>
           <input required type="password" id="password" name="password" placeholder="Password"></input>
+          {this.props.incorrect && <p style={{color: "red", fontSize: "14px"}}>Password incorrect.  Triple check that password and contact Mr. B!</p>}
           <input type="submit" value="Submit" ></input>
         </form>
       )
-    } 
+    }
+  
   
     render() {
       return ( 

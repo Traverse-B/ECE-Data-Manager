@@ -214,7 +214,7 @@ export class IepForm extends React.Component {
                 area: "meta",
                 goal: "Complete work",
                 data_question: `Did ${this.state.student.first_name} complete work today?`,
-                response_type: "Boolean",
+                response_type: "boolean",
                 baseline: 0,
                 goal_percent: 0,
                 description: "Task Completion"
@@ -225,7 +225,7 @@ export class IepForm extends React.Component {
                 area: "meta",
                 goal: "Meet behavior expectations",
                 data_question: `Did ${this.state.student.first_name} meet behavior expectations?`,
-                response_type: "Boolean",
+                response_type: "boolean",
                 baseline: 0,
                 goal_percent: 0,
                 description: "Behavior"

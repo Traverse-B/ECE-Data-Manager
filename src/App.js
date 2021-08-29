@@ -8,7 +8,9 @@ import {IepMain} from './IepMode/IepMain';
 import {StudentMain} from './StudentMode/StudentMain';
 import {TeacherMain} from './TeacherMode/TeacherMain';
 import {ReportMain} from './ReportMode/ReportMain';
+import logo from './logo.svg';
 
+const mode = 'LOCAL';
 export const POSTING = true;
 export const ROUTE = 'https://ece-data-wizard.herokuapp.com';
 
@@ -19,7 +21,7 @@ class Main extends React.Component {
     this.authenticate = this.authenticate.bind(this);
     this.state = {
       auth: false,
-      page: <Landing onSubmit={this.authenticate}/> 
+      page: <Landing onSubmit={this.authenticate} incorrect={false}/> 
     }
     this.handleCompleted = this.handleCompleted.bind(this);
     this.handleChooseData = this.handleChooseData.bind(this);
@@ -34,6 +36,9 @@ class Main extends React.Component {
 
   authenticate(e) {
     e.preventDefault();
+    this.setState({
+      page: this.loading
+    })
     const username = document.getElementById('name').value;
     if (username === 'none') return;
     const password = document.getElementById('password').value;
@@ -60,6 +65,10 @@ class Main extends React.Component {
             login: data[0].login,
             auth: true
           })
+        } else {
+          this.setState({
+            page: <Landing onSubmit={this.authenticate} incorrect={true}/>
+          })
         }
       },
       (error) => {
@@ -67,6 +76,16 @@ class Main extends React.Component {
           error
         });
       })
+  }
+
+  get loading() {
+    return (
+      <div className="App">
+          <header className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+          </header>
+        </div>
+    )
   }
 
   handleChooseData() {
