@@ -58,18 +58,24 @@ export class DataForm extends React.Component {
 
     onReview(e) {
         e.preventDefault();
-        const responses = this.state.goalData.map(goal => {
+        const responses = []
+        this.state.goalData.forEach(goal => {
             const dataType = goal.response_type === "boolean" ? "Bool" : "Percent";
             const goalResponse = document.getElementById(`${goal.id}`).value;
-            if (goalResponse === 'none' || goalResponse ==='' && dataType === "Bool") return false;
-            const responder = this.props.login;
-            const timestamp = this.state.backdated || new Date().toISOString();
-            return {
-                timestamp: timestamp,
-                iep_goal_id: goal.id,
-                data_type: dataType,
-                response: goalResponse,
-                responder: responder
+            if ((goalResponse === 'none' || goalResponse ==='') && dataType === "Bool") {
+                responses.push(false);
+            } else if (dataType === "Percent" && (goalResponse === 'none' || goalResponse === '')) {
+                //do nothing
+            } else {
+                const responder = this.props.login;
+                const timestamp = this.state.backdated || new Date().toISOString();
+                return {
+                    timestamp: timestamp,
+                    iep_goal_id: goal.id,
+                    type: dataType,
+                    response: goalResponse,
+                    responder: responder
+                }
             }
         });
         if (responses.includes(false)) return;    
@@ -82,13 +88,17 @@ export class DataForm extends React.Component {
     review(goalData) {
         const reviewPage = [
             (
-                <div class="card" style={this.cardFormat}>
-                    <div>
-                        <p>{`${this.state.studentName} was ${this.state.present} today`}</p>
-                        <br/>
+                <div>
+    <               div class="card" style={this.cardFormat}>
+                        <div>
+                            <p>{`${this.state.studentName} was ${this.state.present} today`}</p>
+                            <br/>
+                        </div>
+                        <br></br>
                     </div>
-                    <br></br>
-                </div>           
+                    <br/>   
+                </div>
+                   
             )
         ];
         if (this.state.present === 'present'){
@@ -96,20 +106,24 @@ export class DataForm extends React.Component {
                 if (goal.response_type === "boolean") {
                     reviewPage.push(
                         (
-                            
-                            <div style={{paddingBottom: "10px"}}>
-                                <div class="card" style={this.cardFormat}>
-                                    <div >
-                                        <p>{goal.data_question}</p>
-                                        <h3>{document.getElementById(goal.id).value == 100 ? 'Yes' : 'No'}</h3>
+                            <div>
+                                <div style={{paddingBottom: "10px"}}>
+                                    <div class="card" style={this.cardFormat}>
+                                        <div >
+                                            <p>{goal.data_question}</p>
+                                            <h3>{document.getElementById(goal.id).value == 100 ? 'Yes' : 'No'}</h3>
+                                        </div>
+                                        <br></br>
                                     </div>
-                                    <br></br>
                                 </div>
+                                <br/>
                             </div>
+                            
                         )
                     ); 
                 } else {
-                    let report = document.getElementById(goal.id).value;
+                    let report = document.getElementById(goal.id);
+                    report = report ? report.value : '';
                     if (report === '') {
                         report = 'No data provided.  Remember, academic data must be provided every two weeks.'
                     } else {
@@ -117,13 +131,16 @@ export class DataForm extends React.Component {
                     }
                     reviewPage.push(
                         (
-                            <div class="card" style={this.cardFormat}>
-                                <div >
-                                    <p>{goal.data_question}</p>
-                                    <h3>{report}</h3>
+                            <div>
+                                <div class="card" style={this.cardFormat}>
+                                    <div >
+                                        <p>{goal.data_question}</p>
+                                        <h3>{report}</h3>
+                                    </div>
+                                    <br></br>
                                 </div>
-                                <br></br>
                             </div>
+                            
                         )    
                     );
                 }
@@ -145,7 +162,7 @@ export class DataForm extends React.Component {
         e.preventDefault();
         const timestamp = this.state.backdated || new Date().toISOString();
         // Post attendance
-        const attendanceOptions = {
+        const responseOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -153,29 +170,16 @@ export class DataForm extends React.Component {
                 reporter: this.props.login,
                 student_id: this.props.student.student_id || this.props.student.id,
                 data: this.state.present,
-                coteacher: this.props.student.coteacher_login
+                coteacher: this.props.student.coteacher_login,
+                values: this.state.responses
 
             })
         }
         const posting = true; // <--- Disable post for testing here!
-        const attendanceSet = posting? await fetch(`${ROUTE}/meta/attendance`, attendanceOptions) : {ok: true};
-        // Check response 
-        if (!attendanceSet.ok) {
-            this.setState({error: true});
+        const posted = posting? await fetch(`${ROUTE}/response`, responseOptions) : {ok: true};
+        if (!posted.ok) {
+            alert('There was a problem posting data.  Please try submitting again!')
             return;
-        }
-        // If student was present, post data
-        if (this.state.present === 'present') {
-            const requestOptions = {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({"values": this.state.responses})
-            }
-            const posted = posting? await fetch(`${ROUTE}/response`, requestOptions) : {ok: true};
-            if (!posted.ok) {
-                this.setState({error: true});
-                return;
-            }
         }
         // If last student to report on, switch to completed screen
         if (this.props.caseload.length === 1) {
