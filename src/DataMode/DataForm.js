@@ -69,13 +69,15 @@ export class DataForm extends React.Component {
             } else {
                 const responder = this.props.login;
                 const timestamp = this.state.backdated || new Date().toISOString();
-                return {
+                
+                alert('not posting')
+               responses.push({
                     timestamp: timestamp,
                     iep_goal_id: goal.id,
                     type: dataType,
                     response: goalResponse,
                     responder: responder
-                }
+                })
             }
         });
         if (responses.includes(false)) return;    
@@ -162,6 +164,7 @@ export class DataForm extends React.Component {
         e.preventDefault();
         const timestamp = this.state.backdated || new Date().toISOString();
         // Post attendance
+        alert(this.state.responses.length)
         const responseOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
