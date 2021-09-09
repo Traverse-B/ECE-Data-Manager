@@ -16,6 +16,7 @@ export class ReportSnapshot extends React.Component {
         this.back = this.back.bind(this);
     }
 
+
     get cardFormat() {
         return {boxShadow: "2px 2px 10px #9E9E9E", minWidth: "375px"};
     }
@@ -44,27 +45,36 @@ export class ReportSnapshot extends React.Component {
             loading: true
         })
         const studentId = parseInt(studentData);
-        const iepRes = await fetch(`${ROUTE}/students/${studentId}/allgoals`);
-        if (!iepRes.ok) {
-            alert('There was an issue loading IEP data.  Please try again.');
-            this.setState({
-                loading: false
-            })
+        const responseRes = await fetch(`${ROUTE}/students/${studentId}/responses`);
+        if (!responseRes.ok) {
+            alert ('There was a problem loading data.  Please try again!');
             return;
         }
-        const iepData = await iepRes.json();
-        if (iepData.length === 0) {
-            alert('Student does not have data collection set up for any goals.')
-            this.setState({
-                loading: false
-            })
+        const responseData = await responseRes.json();
+        if (responseData.length === 0) {
+            alert('No data found for this student.  Please make sure that data collection is set up and that teachers are able to provide data!')
             return;
         }
-        const student = this.state.students.filter(student => student.student_id === studentId)[0];
+        const attendanceRes = await fetch(`${ROUTE}/students/${studentId}/attendance`);
+        if (!attendanceRes.ok) {
+            alert('There was a problem loading attendance.  Please try again!')
+            return;
+        }
+        const attendanceData = await attendanceRes.json();
         this.setState({
-            studentSelected: student,
-            goals: iepData,
-            loading: false
+            responses: responseData.response,
+            loading: false,
+            attendance: [
+                {name: 'Marked present', value: parseInt(attendanceData[0].present)},
+                {name: 'Marked excused', value: parseInt(attendanceData[0].excused)},
+                {name: 'Marked absent', value: parseInt(attendanceData[0].absent)}
+            ],
+            studentSelected: {
+                name: responseData.name,
+                student_id: studentId, 
+                start_date: responseData.start_date,
+                disability: responseData.disability
+            }
         })
     }
 
@@ -72,6 +82,73 @@ export class ReportSnapshot extends React.Component {
         this.setState({
             studentSelected: false
         })
+    }
+
+
+    get goalReports() {
+        const goals = this.state.responses.slice(0);
+        const reports = [];
+        const bipReports = [];
+        const metaReports = [];
+        goals.forEach(goal => {
+            if (goal.area === 'BIP') {
+                reports.push(
+                    (
+                        <div class='card' style={{boxShadow: "2px 2px 10px #9E9E9E", minWidth: "83.2vw", marginLeft: "10px", marginBottom: "10px"}}>
+                            <h1>BIP</h1>
+                            <div style={this.rowForm}>
+                                <div className="chart" >
+                                    <BipChart student={this.state.studentSelected} data={goal.compiled}/>
+                                </div>
+                                <div style={{width: "25%"}}>
+                                    <p>Target Behavior:  When given a non-prefered direction, Tom will swear, make threats, and use physical aggression</p>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                )
+            } else if (goal.area === 'meta') {
+                metaReports.push(
+                    (
+                        <div>
+                            <div style={{height: "20vw", width: "20vw", alignItems: "center", marginLeft: "5%"}} >
+                                <h3>{goal.description}</h3>
+                                <MetaChart student={this.state.studentSelected} data={goal.compiled}/>
+                            </div>
+                        <span class="longSpacer" />
+                        </div>
+                    )
+                )
+            } else {
+                reports.push(
+                    (
+                        <div class='card' style={{boxShadow: "2px 2px 10px #9E9E9E", minWidth: "83.2vw", marginLeft: "10px", marginBottom: "10px"}}>  
+                            <h1>{goal.description}</h1>
+                            <div style={this.rowForm}>
+                                <div className="chart" >
+                                    <IepChart student={this.state.studentSelected} data={goal.compiled}/>
+                                </div>
+                                <div style={{width: "25%"}}>
+                                    <p>{goal.goal}</p>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                )
+            }
+        });
+        return (
+            <div>
+                {reports}
+                {bipReports}
+                <div class='card' style={{boxShadow: "2px 2px 10px #9E9E9E", minWidth: "83.2vw", marginLeft: "10px", height: "75vh"}}>
+                        <h1>Other Data</h1>
+                        <div style={this.rowForm}>
+                                {metaReports}
+                        </div>
+                    </div>
+            </div>
+        )                      
     }
 
 
@@ -92,7 +169,7 @@ export class ReportSnapshot extends React.Component {
                             <h1>Student Information</h1>
                             <div style={this.rowForm}>
                                 <div>
-                                    <h3>{`Name:   ${this.state.studentSelected.first_name} ${this.state.studentSelected.last_name}`}</h3>
+                                    <h3>{`Name:   ${this.state.studentSelected.name}`}</h3>
                                     <h3>{`ID:   ${this.state.studentSelected.student_id}`}</h3>
                                     <h3>{`Disability:   ${this.state.studentSelected.disability}`}</h3>
                                 </div>
@@ -100,7 +177,6 @@ export class ReportSnapshot extends React.Component {
                                 <div>
                                     <h3>School:   Seneca High School</h3>
                                     <h3>{`TOR:  ${this.props.user}`}</h3>
-                                    <h3>{`Data Start Date: ${this.state.goals[0].start_date}`}</h3>
                                 </div>
                             </div>
                         </div>
@@ -108,47 +184,11 @@ export class ReportSnapshot extends React.Component {
                         <div className='card' style={{boxShadow: "2px 2px 10px #9E9E9E", width: "30vw"}}>
                             <h1>Attendance</h1>
                             <div style={{height: "20vw", width: "20vw", alignItems: "center", marginLeft: "20%"}}>
-                                <AttendanceChart />
-                            </div>
-                            <select></select>
-                        </div>
-                    </div>
-                    <div class='card' style={{boxShadow: "2px 2px 10px #9E9E9E", minWidth: "83.2vw", marginLeft: "10px", marginBottom: "10px"}}>
-                        <h1>Reading</h1>
-                        <div style={this.rowForm}>
-                            <div className="chart" >
-                                <IepChart/>
-                            </div>
-                            <div style={{width: "25%"}}>
-                                <p>Goal:  Given a reading passage, Tom will answer inferential questions after reading the passage with 70% accuracy</p>
+                                <AttendanceChart data={this.state.attendance}/>
                             </div>
                         </div>
                     </div>
-                    <div class='card' style={{boxShadow: "2px 2px 10px #9E9E9E", minWidth: "83.2vw", marginLeft: "10px", marginBottom: "10px"}}>
-                        <h1>BIP</h1>
-                        <div style={this.rowForm}>
-                            <div className="chart" >
-                                <BipChart/>
-                            </div>
-                            <div style={{width: "25%"}}>
-                                <p>Target Behavior:  When given a non-prefered direction, Tom will swear, make threats, and use physical aggression</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class='card' style={{boxShadow: "2px 2px 10px #9E9E9E", minWidth: "83.2vw", marginLeft: "10px", height: "75vh"}}>
-                        <h1>Other Data</h1>
-                        <div style={this.rowForm}>
-                            <div style={{height: "20vw", width: "20vw", alignItems: "center", marginLeft: "5%"}} >
-                                <h3>Completed Work</h3>
-                                <MetaChart/>
-                            </div>
-                            <span class="longSpacer" />
-                            <div style={{height: "20vw", width: "20vw", alignItems: "center", marginLeft: "5%"}} >
-                                <h3>Met Behavior Expectations</h3>
-                                <MetaChart/>
-                            </div>
-                        </div>
-                    </div>
+                    {this.state.studentSelected && this.goalReports}
                     <button onClick={this.back}>Back</button>
                 </div>
                

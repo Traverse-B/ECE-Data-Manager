@@ -230,27 +230,33 @@ export class DataForm extends React.Component {
         const questions = this.state.goalData.map(goal => {
             if (goal.response_type === 'boolean') {
                 return (
-                    <div class="card" style={this.cardFormat}>
+                    <div>
+                        <div class="card" style={this.cardFormat}>
+                            <br/>
+                            <label for={goal.id}>{goal.data_question}</label>
+                            <select  id={goal.id}>
+                                <option value="none" selected disabled hidden >Select</option>
+                                <option value="100">Yes</option>
+                                <option value="0">No</option> 
+                            </select>
+                            <br/>
+                        </div>  
                         <br/>
-                        <label for={goal.id}>{goal.data_question}</label>
-                        <select  id={goal.id}>
-                            <option value="none" selected disabled hidden >Select</option>
-                            <option value="100">Yes</option>
-                            <option value="0">No</option> 
-                        </select>
-                        <br/>
-                    </div>   
+                    </div> 
                     
                 )
             } else {
                 return (
-                    <div class="card" style={this.cardFormat}>
+                    <div>
+                        <div class="card" style={this.cardFormat}>
+                            <br/>
+                            <label for={goal.id}>{goal.data_question}</label>
+                            <br/>
+                            <input class="numberinput" type="number" min="0" max="100" step="1" id={goal.id}></input>
+                            <p style={{fontSize: "14px", color: "red"}}>*Remember, academic data must be provided at least once every two weeks!</p>
+                        </div>  
                         <br/>
-                        <label for={goal.id}>{goal.data_question}</label>
-                        <br/>
-                        <input class="numberinput" type="number" min="0" max="100" step="1" id={goal.id}></input>
-                        <p style={{fontSize: "14px", color: "red"}}>*Remember, academic data must be provided at least once every two weeks!</p>
-                    </div>   
+                    </div> 
                 )
             }   
         })

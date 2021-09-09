@@ -10,7 +10,7 @@ import {TeacherMain} from './TeacherMode/TeacherMain';
 import {ReportMain} from './ReportMode/ReportMain';
 import logo from './logo.svg';
 
-const LOCAL = false;
+const LOCAL = true;
 export const POSTING = true;
 export const ROUTE = LOCAL ? 'http://localhost:3001' : 'https://ece-data-wizard.herokuapp.com';
 

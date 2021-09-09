@@ -1,39 +1,6 @@
 import React, { PureComponent } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar} from 'recharts';
 
-const data = [
-    {
-      name: '2020/01/20',
-      "Progress Data": 40,
-      "Goal Line": 35
-    },
-    {
-      name: '2020/02/6',
-      "Progress Data": 47
-    },
-    {
-      name: '2020/02/20',
-      "Progress Data": 66
-    },
-    {
-      name: '2020/03/04',
-      "Progress Data": 60
-    },
-    {
-      name: '2020/03/18',
-      "Progress Data": 74
-    },
-    {
-      name: '2020/04/02',
-      "Progress Data": 48
-    },
-    {
-      name: '2020/04/16',
-      "Progress Data": 78,
-      "Goal Line": 80    
-    }
-]
-
 function lineOfBestFit(data) {
   const yValues = data.map(a => a["Progress Data"]);
   const xValues = data.map((a, index) => index);
@@ -56,8 +23,18 @@ function lineOfBestFit(data) {
 
 export class IepChart extends PureComponent {
 
+  constructor(props){
+    super(props)
+    this.state = {
+      student: this.props.student
+    }
+  }
+  
+
   render() {
-    if (data.length > 1) {
+    let data = [];
+    if (this.props.data && this.props.data.length > 1) {
+      data = this.props.data
       const trendLine = lineOfBestFit(data)
       data[0]["Trend Line"] = trendLine[0];
       data[data.length - 1]["Trend Line"] = trendLine[1];
@@ -89,11 +66,7 @@ export class IepChart extends PureComponent {
   }
 }
 
-const attendanceData = [
-    { name: 'Marked present', value: 300 },
-    { name: 'Marked excused', value: 300 },
-    { name: 'Marked absent', value: 200 },
-  ];
+
   
   const COLORS = ['#00C49F', '#FFBB28', '#FF8042'];
   
@@ -114,6 +87,7 @@ const attendanceData = [
     static demoUrl = 'https://codesandbox.io/s/pie-chart-with-customized-label-dlhhj';
   
     render() {
+      const attendanceData = this.props.data;
       return (
         <ResponsiveContainer width="100%" height="100%">
           <PieChart width={300} height={200}>
@@ -127,7 +101,7 @@ const attendanceData = [
               fill="#8884d8"
               dataKey="value"
             >
-              {data.map((entry, index) => (
+              {attendanceData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
               ))}
             </Pie>
@@ -141,36 +115,7 @@ const attendanceData = [
 
 
 
-  const bipData = [
-    {
-      name: '2020/01/20',
-      Incidents: 2
-    },
-    {
-      name: '2020/02/6',
-      Incidents: 0
-    },
-    {
-      name: '2020/02/20',
-      Incidents: 4
-    },
-    {
-      name: '2020/03/04',
-      Incidents: 0
-    },
-    {
-      name: '2020/03/18',
-      Incidents: 6
-    },
-    {
-      name: '2020/04/02',
-      Incidents: 8
-    },
-    {
-      name: '2020/04/16',
-      Incidents: 0
-    },
-  ];
+  
   
   export class BipChart extends PureComponent {
   
@@ -180,7 +125,7 @@ const attendanceData = [
           <BarChart
             width={500}
             height={300}
-            data={bipData}
+            data={this.props.data}
             margin={{
               top: 5,
               right: 30,
@@ -200,10 +145,6 @@ const attendanceData = [
     }
   }
 
-  const metaData = [
-    { name: 'Yes', value: 300 },
-    { name: 'No', value: 400 }
-  ];
 
   const METACOLORS = ['#00C49F', '#FF8042'];
   
@@ -221,14 +162,13 @@ const attendanceData = [
   };
   
   export class MetaChart extends PureComponent {
-    static demoUrl = 'https://codesandbox.io/s/pie-chart-with-customized-label-dlhhj';
   
     render() {
       return (
         <ResponsiveContainer width="100%" height="100%">
           <PieChart width={300} height={200}>
             <Pie
-              data={metaData}
+              data={this.props.data}
               cx="40%"
               cy="60%"
               labelLine={false}
@@ -237,7 +177,7 @@ const attendanceData = [
               fill="#8884d8"
               dataKey="value"
             >
-              {data.map((entry, index) => (
+              {this.props.data.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={METACOLORS[index % METACOLORS.length]} />
               ))}
             </Pie>
