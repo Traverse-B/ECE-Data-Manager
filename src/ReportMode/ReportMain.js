@@ -2,7 +2,8 @@ import logo from '../logo.svg';
 import React from 'react'; 
 import '../App.css';
 import {ROUTE} from '../App.js';
-import {ReportSnapshot} from "./ReportSnapshot"
+import {ReportSnapshot} from "./ReportSnapshot";
+import {ReportProgress} from "./ReportProgress";
 
 export class ReportMain extends React.Component {
 
@@ -14,7 +15,7 @@ export class ReportMain extends React.Component {
         }
         this.handleChooseSnapshot = this.handleChooseSnapshot.bind(this);
         this.back = this.back.bind(this);
-        //this.handleChooseProgressReport = this.handleChooseProgressReport.bind(this);
+        this.handleChooseProgress = this.handleChooseProgress.bind(this);
     }
 
     async componentDidMount() {
@@ -44,7 +45,17 @@ export class ReportMain extends React.Component {
         })
     }
 
+    handleChooseProgress() {
+        this.setState({
+            page: <ReportProgress students={this.state.students}
+                user={this.props.user}
+                back={this.back}
+            />
+        })
+    }
+
     back() {
+        window.scroll(0, 0);
         this.setState({
             page: false
         })
@@ -86,7 +97,7 @@ export class ReportMain extends React.Component {
                         <h3>Progress Snapshot</h3>
                         <p>Get an update on a student's IEP progress</p>
                     </button>
-                    <button class="choice" >
+                    <button class="choice" onClick={this.handleChooseProgress}>
                         <h3>Progress Report</h3>
                         <p>Get a printable progress report for ECE records</p>
                     </button>
