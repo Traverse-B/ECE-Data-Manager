@@ -86,12 +86,14 @@ export class TeacherMain extends React.Component {
             edit: false
         })
         window.scroll(0,0);
+        this.componentDidMount();
     }
 
     addAnother() {
         this.updateTeacherList();
         this.toggleBlur();
         const key = (this.state.key + 1) % 2;
+        this.componentDidMount();
         this.setState({
             key: key
         })

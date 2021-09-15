@@ -31,6 +31,7 @@ export class DataForm extends React.Component {
             }
             const goalRes = await fetch(`${ROUTE}/students/${this.props.student.student_id || this.props.student.id}/backdateiep`, options);
             const goalData = await goalRes.json();
+            // get last submit dates for all academic iep goals
             this.setState({
                 studentName: this.props.student.name || this.props.student.first_name + ' ' + this.props.student.last_name,
                 goalData: goalData,
@@ -125,7 +126,7 @@ export class DataForm extends React.Component {
                     let report = document.getElementById(goal.id);
                     report = report ? report.value : '';
                     if (report === '') {
-                        report = 'No data provided.  Remember, academic data must be provided every two weeks.'
+                        report = `Last data provided on ${new Date(goal.last_response).toLocaleDateString()}.  Remember, academic data must be provided every two weeks.`
                     } else {
                         report += '%';
                     }
@@ -139,6 +140,7 @@ export class DataForm extends React.Component {
                                     </div>
                                     <br></br>
                                 </div>
+                                <br></br>
                             </div>
                             
                         )    
@@ -253,7 +255,7 @@ export class DataForm extends React.Component {
                             <label for={goal.id}>{goal.data_question}</label>
                             <br/>
                             <input class="numberinput" type="number" min="0" max="100" step="1" id={goal.id}></input>
-                            <p style={{fontSize: "14px", color: "red"}}>*Remember, academic data must be provided at least once every two weeks!</p>
+                            <p style={{fontSize: "14px", color: "red"}}>{`Last data provided on ${new Date(goal.last_response).toLocaleDateString()}.  Academic data must be provided at least once every two weeks!`}</p>
                         </div>  
                         <br/>
                     </div> 

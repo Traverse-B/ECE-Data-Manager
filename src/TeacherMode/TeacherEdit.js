@@ -134,6 +134,7 @@ export class TeacherEdit extends React.Component {
         if (this.state.confirmDelete) return;
         const assignedId = parseInt(document.getElementById("availStudents").value)
         const assignedStudent = this.state.availableStudents.filter(student => student.id === assignedId)[0];
+        if (!assignedStudent) return;
         const assignedStudents = this.state.assignedStudents? this.state.assignedStudents.slice(0) : []
         assignedStudents.push({
             first_name: assignedStudent.first_name,
@@ -176,6 +177,10 @@ export class TeacherEdit extends React.Component {
         const password = document.getElementById('password').value.trim();
         const email = document.getElementById('email').value.trim();
         const user_type = document.getElementById('user_type').value;
+        if (password === '') return;
+        if (name === '') return;
+        if (email === '') return;
+        if (user_type === '' || user_type === 'none') return;
         let assignedStudents = this.state.assignedStudents.slice(0);
         assignedStudents.forEach(teacher => {
             teacher.teacher_login = login.slice(0)
@@ -298,11 +303,8 @@ export class TeacherEdit extends React.Component {
     get nextStep() {
         return (
             <div class="goalForm" style={this.cardFormat} >
-                <h3>{`profile for ${this.state.editTeacher.name} updated.  
-                Edit another student or return to menu options?`}</h3>
+                <h3>{`Profile for ${this.state.editTeacher.name} updated.`}</h3>
                 <div style={this.rowForm} >
-                    <button onClick={this.props.editAnother} >Edit another teacher</button>
-                    <span class="spacer"></span>
                     <button onClick={this.props.back}>Back to menu options</button>
                 </div>
             </div>

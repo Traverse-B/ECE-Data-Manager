@@ -141,6 +141,9 @@ export class StudentForm extends React.Component {
         const first_name = document.getElementById('first_name').value;
         const last_name = document.getElementById('last_name').value;
         const disability = document.getElementById('disability').value;
+        if (first_name === 'none' || first_name === '') return;
+        if (last_name === 'none' || last_name === '') return;
+        if (disability === 'none' || disability === '') return;
         let scheduledTeachers = this.state.scheduledTeachers.slice(0);
         scheduledTeachers.forEach(teacher => {
             teacher.student_id = student_id
@@ -328,7 +331,7 @@ export class StudentForm extends React.Component {
                             </select>
                             <p>Scheduled Teachers</p>
                             <div style={this.rowForm}>
-                                <button onClick={this.addTeachers}>Add</button>
+                                <button onClick={this.addTeachers}>Schedule new teacher</button>
                                 <span class="spacer"/>
                                 {this.state.selectedTeacher && <button onClick={this.deleteTeacher} >Delete</button>}
                             </div>

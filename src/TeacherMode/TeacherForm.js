@@ -24,6 +24,7 @@ export class TeacherForm extends React.Component {
     async submitForm(e) {
         e.preventDefault();
         const login = document.getElementById('login').value.trim();
+        if (login === '') return;
         // Check to ensure ID doesn't exist in database
         const loginUsed = this.state.teachers.findIndex(teacher => teacher.login === login) !== -1;
         if (loginUsed) {
@@ -34,6 +35,10 @@ export class TeacherForm extends React.Component {
         const name = document.getElementById('name').value.trim();
         const email = document.getElementById('email').value.trim();
         const userType = document.getElementById('usertype').value;
+        if (password === '') return;
+        if (name === '') return;
+        if (email === '') return;
+        if (userType === '' || userType === 'none') return;
         const postOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},

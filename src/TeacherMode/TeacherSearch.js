@@ -39,6 +39,7 @@ export class TeacherSearch extends React.Component {
 
     editAnother() {
         window.scroll(0,0);
+        
         this.setState({
             confirmed: false
         })

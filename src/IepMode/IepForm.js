@@ -165,10 +165,14 @@ export class IepForm extends React.Component {
         const goal = document.getElementById("goaldescription").value.trim();
         const question = document.getElementById("dataquestion").value.trim();
         const bool = document.getElementById("bool");
+        const percent = document.getElementById("percent");
+        if (!bool.checked && !percent.checked) return;
         const type = bool.checked ? "boolean" : "percentage";
         const baseline = parseInt(document.getElementById("baseline").value);
         const goal_percent = parseInt(document.getElementById("goal_percent").value);
         const description = document.getElementById('description').value;
+        if (description === 'none' || description === '') return;
+        if (!baseline || !goal_percent) return;
         document.getElementById("iep-body").className = "iep-body";
         document.getElementById("iep-footer").className = "iep-footer";
         const goals = this.state.goals.slice(0);
@@ -406,6 +410,7 @@ export class IepForm extends React.Component {
                         <div>
                             <label for="description">Area</label>
                             <select id="description" name="description">
+                                <option value='none' hidden disabled selected>Select</option>
                                 <option value="Reading Fluency">Reading Fluency</option>
                                 <option value="Reading Comprehension">Reading Comprehension</option>
                                 <option value="Math Calculation">Math Calculation</option>

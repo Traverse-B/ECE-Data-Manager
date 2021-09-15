@@ -6,13 +6,16 @@ function lineOfBestFit(data) {
   const xValues = data.map((a, index) => index);
   let sumX = 0; let sumY = 0; let sumXX = 0; let sumXY = 0; let count = 0;
   for (var v = 0; v < xValues.length; v++) {
-      let x = xValues[v];
-      let y = yValues[v];
-      sumX += x;
-      sumY += y;
-      sumXX += x*x;
-      sumXY += x*y;
-      count++;
+      if (yValues[v]) {
+        let x = xValues[v];
+        let y = yValues[v];
+        alert(y)
+        sumX += x;
+        sumY += y;
+        sumXX += x*x;
+        sumXY += x*y;
+        count++;
+      }
   }
 
   var m = (count*sumXY - sumX*sumY) / (count*sumXX - sumX*sumX);
@@ -23,22 +26,16 @@ function lineOfBestFit(data) {
 
 export class IepChart extends PureComponent {
 
-  constructor(props){
-    super(props)
-    this.state = {
-      student: this.props.student
-    }
-  }
-  
-
   render() {
-    let data = [];
+    let data = this.props.data;
+    /*
     if (this.props.data && this.props.data.length > 1) {
       data = this.props.data
       const trendLine = lineOfBestFit(data)
       data[0]["Trend Line"] = trendLine[0];
       data[data.length - 1]["Trend Line"] = trendLine[1];
     }
+    */
     return (
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
@@ -54,12 +51,11 @@ export class IepChart extends PureComponent {
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
-          <YAxis />
+          <YAxis domain={[0, 100]}  scale="linear"/>
           <Tooltip />
           <Legend />
           <Line dataKey="Progress Data" stroke="blue" activeDot={{ r: 8 }} />
           <Line connectNulls dataKey="Goal Line" stroke="rgb(136, 228, 124)" />
-          {data.length > 1 && <Line connectNulls dataKey="Trend Line" stroke="rgb(214, 223, 212)" />}
         </LineChart>
       </ResponsiveContainer>
     );

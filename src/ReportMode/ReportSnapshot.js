@@ -141,12 +141,14 @@ export class ReportSnapshot extends React.Component {
             <div>
                 {reports}
                 {bipReports}
-                <div class='card' style={{boxShadow: "2px 2px 10px #9E9E9E", minWidth: "83.2vw", marginLeft: "10px", height: "75vh"}}>
+                {metaReports.length > 0 && (
+                    <div class='card' style={{boxShadow: "2px 2px 10px #9E9E9E", minWidth: "83.2vw", marginLeft: "10px", height: "75vh"}}>
                         <h1>Other Data</h1>
                         <div style={this.rowForm}>
                                 {metaReports}
                         </div>
                     </div>
+                ) }  
             </div>
         )                      
     }
@@ -166,7 +168,13 @@ export class ReportSnapshot extends React.Component {
                 <div>
                     <div style={{padding: "10px", flexDirection: "row", display: "flex"}}>
                         <div className="card" style={{boxShadow: "2px 2px 10px #9E9E9E", minWidth: "50vw"}}>
-                            <h1>Student Information</h1>
+                            <div style={this.rowForm}>
+                                <h1>Student Information</h1>
+                                <span class="longSpacer"/>
+                                <div>
+                                    <button style={{fontSize: "30px"}} onClick={this.props.back}>Go Back</button>
+                                </div>
+                            </div>
                             <div style={this.rowForm}>
                                 <div>
                                     <h3>{`Name:   ${this.state.studentSelected.name}`}</h3>

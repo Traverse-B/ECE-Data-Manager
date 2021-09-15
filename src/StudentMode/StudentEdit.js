@@ -27,6 +27,7 @@ export class StudentEdit extends React.Component {
         this.scheduleTeacher = this.scheduleTeacher.bind(this);
         this.backFromTeacherForm = this.backFromTeacherForm.bind(this);
         this.submitForm = this.submitForm.bind(this);
+        this.unScheduleTeacher = this.unScheduleTeacher.bind(this);
     }
 
     async componentDidMount() {
@@ -81,6 +82,18 @@ export class StudentEdit extends React.Component {
         })
     }
 
+    unScheduleTeacher(e) {
+        if (this.state.confirmDelete) return;
+        if (!this.state.selectedTeacher || this.state.addTeachers) return;
+        const teachers = this.state.scheduledTeachers;
+        const index = teachers.findIndex(teacher => teacher.teacher_login === this.state.selectedTeacher.login);
+        teachers[index].end_date = new Date();
+        alert('Teacher will be removed from current schedule after save.  Teacher can still enter missing data from previous dates.  To remove all data collection requirements, use the option "Delete from schedule');
+        this.setState({
+            scheduledTeachers: teachers
+        });
+    }
+
     deleteTeacher(e) {
         if (this.state.confirmDelete) return;
         this.toggleBlur()
@@ -88,7 +101,7 @@ export class StudentEdit extends React.Component {
         this.setState({
             confirmDelete: true
         })
-        e.stopPropagation()
+        e.stopPropagation();
     }
 
     confirmDelete() {
@@ -183,6 +196,9 @@ export class StudentEdit extends React.Component {
         const first_name = document.getElementById('first_name').value;
         const last_name = document.getElementById('last_name').value;
         const disability = document.getElementById('disability').value;
+        if (first_name === 'none' || first_name === '') return;
+        if (last_name === 'none' || last_name === '') return;
+        if (disability === 'none' || disability === '') return;
         let scheduledTeachers = this.state.scheduledTeachers.slice(0);
         scheduledTeachers.forEach(teacher => {
             teacher.student_id = student_id
@@ -330,11 +346,10 @@ export class StudentEdit extends React.Component {
     get confirmation() {
         return (
             <div class="goalForm" style={this.cardFormat} >
-                <h3>Removing this teacher from the schedule will remove requirements 
-                    for them to complete missing past-due data collection.  If teacher
-                    is no longer on student's schedule, consider editing the end date 
-                    instead.  Do you wish to remove teacher?</h3>
-                    <button onClick={this.confirmDelete} >Remove</button>
+                <h3>Deleting this teacher from the schedule will remove requirements 
+                    for them to complete data collection, including past dates.  If student's
+                    schedule has changed, consider using the option "Remove from current schedule".  Do you wish to delete?</h3>
+                    <button onClick={this.confirmDelete} >Delete</button>
                     <span class="spacer"></span>
                     <button onClick={this.unconfirmed}>Hmm, maybe not...</button>
             </div>
@@ -381,9 +396,11 @@ export class StudentEdit extends React.Component {
                             </select>
                             <p>Scheduled Teachers</p>
                             <div style={this.rowForm}>
-                                <button onClick={this.addTeachers}>Add</button>
+                                <button onClick={this.addTeachers}>Schedule new teacher</button>
                                 <span class="spacer"/>
-                                {this.state.selectedTeacher && <button onClick={this.deleteTeacher} >Delete</button>}
+                                {this.state.selectedTeacher && <button onClick={this.unScheduleTeacher} >Remove from current schedule</button>}
+                                <span class="spacer"/>
+                                {this.state.selectedTeacher && <button onClick={this.deleteTeacher} >Delete from schedule</button>}
                             </div>
                             <div id="goalBox" class="goalBox" style={this.height}>
                                 {this.teachers}

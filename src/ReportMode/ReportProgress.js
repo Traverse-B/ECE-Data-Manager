@@ -97,8 +97,8 @@ export class ReportProgress extends React.Component {
                                             <h3>{`TOR:  ${this.props.user}`}</h3>
                                         </div>
                                         <span class="spacer"/>
-                                        <div style={{width: "35%"}}>
-                                            <p>{`Target Behavior: ${goal.goal}`}</p>
+                                        <div style={{width: "55%"}}>
+                                            <p style={{fontSize: "12px"}}>{`Target Behavior: ${goal.goal}`}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -122,7 +122,7 @@ export class ReportProgress extends React.Component {
             } else {
                 reports.push(
                     (
-                        <div class='card' style={{boxShadow: "2px 2px 10px #9E9E9E", minWidth: "100%", Height: "100%", marginBottom: "11%"}}> 
+                        <div class='card' style={{boxShadow: "2px 2px 10px #9E9E9E", minWidth: "100%", Height: "100%", marginBottom: "0%"}}> 
                             <div style={this.rowForm}>
                                 <div className="card" style={{boxShadow: "2px 2px 10px #9E9E9E", minWidth: "50vw"}}>
                                     <div style={this.rowForm}>
@@ -137,15 +137,15 @@ export class ReportProgress extends React.Component {
                                             <h3>{`TOR:  ${this.props.user}`}</h3>
                                         </div>
                                         <span class="spacer"/>
-                                        <div style={{width: "35%"}}>
-                                            <p>{goal.goal}</p>
+                                        <div style={{width: "33vw"}}>
+                                            <p style={{fontSize: "12px"}}>{goal.goal}</p>
                                         </div>
                                     </div>
                                 </div>
                                 <span class="spacer"></span>
-                                <div class='card' style={{boxShadow: "2px 2px 10px #9E9E9E"}}>
+                                <div class='card' style={{boxShadow: "2px 2px 10px #9E9E9E", minWidth: "0px"}}>
                                     <p>Progress Summary</p>
-                                    <textarea cols="10" rows="10"></textarea>
+                                    <textarea cols="5" rows="10"></textarea>
                                 </div>
                             </div> 
                             
@@ -200,7 +200,7 @@ export class ReportProgress extends React.Component {
                             {this.students()}
                         </select>
                         <br/>
-                        <button style={{height: "40px"}} onClick={this.selectStudent}>Get progress snapshot</button>
+                        <button style={{height: "40px"}} onClick={this.selectStudent}>Get printable progress report</button>
                     </div>
                 </body>
                 <header className="iep-footer">
