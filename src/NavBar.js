@@ -31,7 +31,7 @@ export class NavBar extends React.Component {
         return (
             <div style={{height: "30px", backgroundColor: "black", color: "white", position: "fixed", top: "0", left: "0", width: "100%",
                 display: "flex", flexDirection: "row", paddingLeft: "10px", paddingTop: "4px"}}>
-                {window.innerWidth < 700 && <div>{this.props.user}</div>}
+                {window.innerWidth > 700 && <div>{this.props.user}</div>}
                 <span class="spacer"></span>
                 <button onClick={this.props.logout} style={{height: "25px", backgroundColor: "black", color: "white"}}>LOG OUT</button>
                 <div style={{position: "fixed", top: "-4px", right: "10px"}}>
