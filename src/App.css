@@ -14,7 +14,7 @@
 }
 
 .App-header {
-  background-color: #b61a05;
+  background-color: #6b605e;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -122,17 +122,15 @@ label {
 .choice {
   display: grid;
   border-radius: 15px;
-  border: 1px solid black;
-  background: #2c2b2bb2;
+  background: #FFF;
   padding: 10px;
   box-sizing: content-box;
   width: 20vw;
-  color: white;
   font-size: calc(6px + 2vmin);
 }
 
 .choice-header {
-  background-color: #dad8cd;
+  background-color: rgb(231, 221, 221);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -142,7 +140,8 @@ label {
 }
 
 .choice-body {
-  background-image: url('space.jpg');
+  background-image: url(space.jpg);
+  background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
   padding-top: 20px;
@@ -157,7 +156,7 @@ label {
 }
 
 .choice:hover {
-  background: #3f3f3ecb;
+  background: #e7e7e0ef;
 }
 
 .spacer {
@@ -257,7 +256,7 @@ label {
   color: white;
   background-color: #2d865a;
   min-height: 60vh;
-  background-image: url('space.jpg');
+  background-image: url(space.jpg);
   background-repeat: no-repeat;
   background-size: cover;
 }

@@ -2,7 +2,7 @@ import logo from '../logo.svg';
 import React from 'react'; 
 import '../App.css';
 import {ROUTE} from '../App.js';
-import {IepChart, AttendanceChart, BipChart, MetaChart} from './Charts';
+import {IepChart, BipChart} from './Charts';
 
 export class ReportProgress extends React.Component {
 
@@ -14,6 +14,7 @@ export class ReportProgress extends React.Component {
         this.students = this.students.bind(this);
         this.selectStudent = this.selectStudent.bind(this);
         this.back = this.back.bind(this);
+        this.print = this.print.bind(this);
     }
 
 
@@ -71,6 +72,23 @@ export class ReportProgress extends React.Component {
         this.setState({
             studentSelected: false
         })
+    }
+
+    timeout(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async print() {
+        this.props.toggleNav()
+        this.setState({
+            printing: true
+        })
+        const timer = await this.timeout(100);
+        window.print();
+        this.setState({
+            printing: false
+        })
+        this.props.toggleNav()
     }
 
 
@@ -181,8 +199,15 @@ export class ReportProgress extends React.Component {
         if (this.state.studentSelected) {
             return (
                 <div>
+                    
+                    {!this.state.printing && <div>
+                        <button onClick={this.print} style={{height: "50px", width: "100px", fontSize: "20px"}}>Print</button>
+                        <span class="spacer"/>
+                        <button onClick={this.back} style={{height: "50px", width: "100px", fontSize: "20px"}}>Back</button>
+                    </div>}
+                    
                     {this.state.studentSelected && this.goalReports}
-                    <button onClick={this.back}>Back</button>
+                    {!this.state.printing && <button onClick={this.back}>Back</button>}
                 </div>
                
             )

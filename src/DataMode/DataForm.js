@@ -269,6 +269,7 @@ export class DataForm extends React.Component {
                     {questions}
                     <br/>
                     <input type='submit' value='Continue'></input>
+                    <button onClick={this.back}>Back</button>
                 </form>
             </div>   
         )

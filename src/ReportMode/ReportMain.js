@@ -19,20 +19,25 @@ export class ReportMain extends React.Component {
     }
 
     async componentDidMount() {
-        const res = await fetch(`${ROUTE}/teachers/${this.state.teacher_login}/caseload`);
-        const assignedStudents = await res.json();
+        const res = this.props.userType === 'ADMIN'? await fetch(`${ROUTE}/students`) : 
+            await fetch(`${ROUTE}/teachers/${this.state.teacher_login}/caseload`);
         if (!res.ok) {
             alert('There was a problem loading students.  Please try again.');
             this.props.back();
         }
+        const assignedStudents = await res.json();
         if (!assignedStudents.length || assignedStudents.length === 0) {
             alert('No students currently assigned to you.')
             this.props.back();
+        } else {     
+            if (!assignedStudents[0].student_id) {
+                assignedStudents.forEach(student => student.student_id = student.id);
+            }
+            this.setState({
+                students: assignedStudents,
+                isLoaded: true
+            })
         }
-        this.setState({
-            students: assignedStudents,
-            isLoaded: true
-        })
     }
 
     handleChooseSnapshot() {
@@ -50,6 +55,7 @@ export class ReportMain extends React.Component {
             page: <ReportProgress students={this.state.students}
                 user={this.props.user}
                 back={this.back}
+                toggleNav={this.props.toggleNav}
             />
         })
     }

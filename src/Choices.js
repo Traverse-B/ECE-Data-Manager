@@ -16,7 +16,7 @@ export class Choices extends React.Component {
 
     choice(title, text, handler) {
         return (
-            <button onClick={handler} class="choice" >
+            <button onClick={handler} class="choice" style={{ boxShadow: "2px 2px 10px black"}} >
                 <h3>{title}</h3>
                 <p>{text}</p>
             </button>

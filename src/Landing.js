@@ -50,7 +50,6 @@ export class Landing extends React.Component {
   
     render() {
       return ( 
-        <div className="App">
           <header className="App-header">
             <h1>Seneca ECE-Wizard</h1>
             {this.state.isLoaded && (
@@ -61,7 +60,6 @@ export class Landing extends React.Component {
             )}
             {this.state.isLoaded ? this.loginForm(this.state.teachers, this.props.onSubmit) : <img src={logo} className="App-logo" alt="logo" />}
           </header>
-        </div>
       );
     }
   }

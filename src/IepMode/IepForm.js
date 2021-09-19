@@ -389,9 +389,12 @@ export class IepForm extends React.Component {
     }
 
     get goalForm() {
+        const dselected = this.state.edit? this.state.goal.description : undefined;
         const selected = this.state.edit ? this.state.goal.area : undefined;
         const goalDescription = this.state.edit ? this.state.goal.goal : "";
         const dataQuestion = this.state.edit ? this.state.goal.data_question : '';
+        const goalBaseline = this.state.edit ? this.state.goal.baseline : null;
+        const goalPercent = this.state.edit ? this.state.goal.goal_percent : null;
         const isBoolean = this.state.edit && this.state.goal.response_type === "boolean";
         const isPercent = this.state.edit && this.state.goal.response_type === "percentage";
         return (
@@ -410,17 +413,17 @@ export class IepForm extends React.Component {
                         <div>
                             <label for="description">Area</label>
                             <select id="description" name="description">
-                                <option value='none' hidden disabled selected>Select</option>
-                                <option value="Reading Fluency">Reading Fluency</option>
-                                <option value="Reading Comprehension">Reading Comprehension</option>
-                                <option value="Math Calculation">Math Calculation</option>
-                                <option value="Math Comprehension">Math Comprehension</option>
-                                <option value="Written Expression">Written Expression</option>
-                                <option value="Communication">Communication</option>
-                                <option value="Self-Advocacy">Self-Advocacy</option>
-                                <option value="Behavior">Behavior</option>
-                                <option value="Task Completion">Task Completion</option>
-                                <option value="Adaptive Skills">Adaptive Skills</option>
+                                <option value='none' hidden disabled selected={!dselected}>Select</option>
+                                <option selected={dselected === "Reading Fluency"} value="Reading Fluency">Reading Fluency</option>
+                                <option selected={dselected === "Reading Comprehension"} value="Reading Comprehension">Reading Comprehension</option>
+                                <option selected={dselected === "Math Calculation" } value="Math Calculation">Math Calculation</option>
+                                <option selected={dselected === "Math Comprehension"} value="Math Comprehension">Math Comprehension</option>
+                                <option selected={dselected === "Written Expression"} value="Written Expression">Written Expression</option>
+                                <option selected={dselected === "Communication"} value="Communication">Communication</option>
+                                <option selected={dselected === "Self-Advocacy"} value="Self-Advocacy">Self-Advocacy</option>
+                                <option selected={dselected === "Behavior"} value="Behavior">Behavior</option>
+                                <option selected={dselected === "Task Completion"} value="Task Completion">Task Completion</option>
+                                <option selected={dselected === "Adaptive Skills"} value="Adaptive Skills">Adaptive Skills</option>
                             </select>
                         </div>
                     </div>
@@ -457,13 +460,13 @@ export class IepForm extends React.Component {
                         <div>
                             <label for="baseline">Baseline</label>
                             <span class="spacer"/>
-                            <input type="number" id="baseline" max="100" min="0"></input>
+                            <input type="number" id="baseline" max="100" min="0" defaultValue={goalBaseline}></input>
                         </div>
                         <span class="longSpacer"></span>
                         <div>
                             <label for="goal_percent">Goal Percent</label>
                             <span class="spacer"/>
-                            <input type="number" id="goal_percent" max="100" min="0"></input>
+                            <input type="number" id="goal_percent" max="100" min="0" defaultValue={goalPercent}></input>
                         </div>
                         
                     </div>

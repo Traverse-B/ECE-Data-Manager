@@ -1,5 +1,6 @@
 import './App.css';
 import React from 'react';
+import {NavBar} from './NavBar';
 import {Landing} from './Landing';
 import {DataMain} from './DataMode/DataMain';
 import {Choices} from './Choices';
@@ -13,6 +14,7 @@ import logo from './logo.svg';
 const LOCAL = false;
 export const POSTING = true;
 export const ROUTE = LOCAL ? 'http://localhost:3001' : 'https://ece-data-wizard.herokuapp.com';
+
 
 class Main extends React.Component {
 
@@ -32,6 +34,8 @@ class Main extends React.Component {
     this.handleChooseStudents = this.handleChooseStudents.bind(this);
     this.handleChooseTeachers = this.handleChooseTeachers.bind(this);
     this.handleChooseReport = this.handleChooseReport.bind(this);
+    this.handleLogOut = this.handleLogOut.bind(this);
+    this.toggleNavBar = this.toggleNavBar.bind(this);
   }
 
   authenticate(e) {
@@ -161,6 +165,8 @@ class Main extends React.Component {
               back={this.returnToChoices}
               user={this.state.user}
               login={this.state.login}
+              userType={this.state.userType}
+              toggleNav={this.toggleNavBar}
             />
     })
   }
@@ -201,18 +207,60 @@ class Main extends React.Component {
     });
   }
 
+  handleLogOut() {
+    this.setState({
+      user: false,
+      userType: false,
+      login: false,
+      auth: false,
+      page: <Landing onSubmit={this.authenticate} incorrect={false}/>
+    })
+  }
+
+  toggleNavBar() {
+    if (this.state.hiddenNav) {
+      this.setState({
+        hiddenNav: false
+      })
+    } else {
+      this.setState({
+        hiddenNav: true
+      })
+    }
+  }
+
+
   render() {
     if (this.state.error) {
-      return <div><p>{this.state.error}</p></div>;
+      return <div className="App"><p>{this.state.error}</p></div>;
     }
-    return this.state.page 
+    return (
+      <div className="App">
+        {(this.state.auth && !this.state.hiddenNav) && <NavBar userType={this.state.userType}
+                              user={this.state.user}
+                              data={this.handleChooseData}
+                              backDate={this.handleChooseBackDate}
+                              iep={this.handleChooseIEP}
+                              students={this.handleChooseStudents}
+                              teachers={this.handleChooseTeachers}
+                              reports={this.handleChooseReport}
+                              logout={this.handleLogOut}    
+        />}
+        {this.state.auth && <div style={{height: "30px"}}></div>}
+        {this.state.page}
+      </div>
+    ) 
   }
 }
 
 
 
 function App() {
-  return <Main />
+  return (
+    <div>
+      <Main />
+    </div> 
+  )
 }
 
 export default App;
