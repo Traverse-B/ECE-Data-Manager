@@ -135,7 +135,7 @@ export class DataForm extends React.Component {
                             <div>
                                 <div class="card" style={this.cardFormat}>
                                     <div >
-                                        <p>{goal.data_question}</p>
+                                        <p>{goal.data_question.replace(/@%/g, "'")}</p>
                                         <h3>{report}</h3>
                                     </div>
                                     <br></br>
@@ -235,7 +235,7 @@ export class DataForm extends React.Component {
                     <div>
                         <div class="card" style={this.cardFormat}>
                             <br/>
-                            <label for={goal.id}>{goal.data_question}</label>
+                            <label for={goal.id}>{goal.data_question.replace(/@%/g, "'")}</label>
                             <select  id={goal.id}>
                                 <option value="none" selected disabled hidden >Select</option>
                                 <option value="100">Yes</option>
@@ -252,7 +252,7 @@ export class DataForm extends React.Component {
                     <div>
                         <div class="card" style={this.cardFormat}>
                             <br/>
-                            <label for={goal.id}>{goal.data_question}</label>
+                            <label for={goal.id}>{goal.data_question.replace(/@%/g, "'")}</label>
                             <br/>
                             <input class="numberinput" type="number" min="0" max="100" step="1" id={goal.id}></input>
                             <p style={{fontSize: "14px", color: "red"}}>{`Last data provided on ${new Date(goal.last_response).toLocaleDateString()}.  Academic data must be provided at least once every two weeks!`}</p>

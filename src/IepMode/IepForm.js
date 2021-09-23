@@ -162,8 +162,8 @@ export class IepForm extends React.Component {
         e.preventDefault();
         const area = document.getElementById("area").value;
         if (area === "none") return;
-        const goal = document.getElementById("goaldescription").value.trim();
-        const question = document.getElementById("dataquestion").value.trim();
+        const goal = document.getElementById("goaldescription").value.trim().replace(/'/g, '@%');
+        const question = document.getElementById("dataquestion").value.trim().replace(/'/g, '@%');
         const bool = document.getElementById("bool");
         const percent = document.getElementById("percent");
         if (!bool.checked && !percent.checked) return;
@@ -303,11 +303,10 @@ export class IepForm extends React.Component {
     get goals() {
         if (this.state.goals) {
             return this.state.goals.slice(0).map((goal, index) => {
-                const goalText = goal.goal.length > 20 ? goal.goal.slice(0,50) + '...' : goal.goal;
                 return (
                     <div className="goal" id={index} tabindex="-1" onClick={this.handleSelected}>
                         <p style={this.areaFormat}>{goal.area}</p>
-                        <p style={this.textFormat}>{goalText}</p>
+                        <p style={this.textFormat}>{goal.description}</p>
                     </div>
                 )
             })
@@ -391,8 +390,8 @@ export class IepForm extends React.Component {
     get goalForm() {
         const dselected = this.state.edit? this.state.goal.description : undefined;
         const selected = this.state.edit ? this.state.goal.area : undefined;
-        const goalDescription = this.state.edit ? this.state.goal.goal : "";
-        const dataQuestion = this.state.edit ? this.state.goal.data_question : '';
+        const goalDescription = this.state.edit ? this.state.goal.goal.replace(/@%/g, "'") : "";
+        const dataQuestion = this.state.edit ? this.state.goal.data_question.replace(/@%/g, "'") : '';
         const goalBaseline = this.state.edit ? this.state.goal.baseline : null;
         const goalPercent = this.state.edit ? this.state.goal.goal_percent : null;
         const isBoolean = this.state.edit && this.state.goal.response_type === "boolean";

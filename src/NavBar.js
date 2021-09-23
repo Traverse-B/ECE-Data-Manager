@@ -29,7 +29,7 @@ export class NavBar extends React.Component {
         }
         if (this.props.userType === "ADMIN") options.push(<option value="Teachers">Teacher Management</option>)
         return (
-            <div style={{height: "30px", backgroundColor: "black", color: "white", position: "fixed", top: "0", left: "0", width: "100%",
+            <div style={{height: "30px", backgroundColor: "black", color: "white", position: "fixed", top: "0", left: "0", zIndex: 1000, width: "100%",
                 display: "flex", flexDirection: "row", paddingLeft: "10px", paddingTop: "4px"}}>
                 {window.innerWidth > 700 && <div>{this.props.user}</div>}
                 <span class="spacer"></span>

@@ -116,7 +116,7 @@ export class ReportProgress extends React.Component {
                                         </div>
                                         <span class="spacer"/>
                                         <div style={{width: "55%"}}>
-                                            <p style={{fontSize: "12px"}}>{`Target Behavior: ${goal.goal}`}</p>
+                                            <p style={{fontSize: "12px"}}>{`Target Behavior: ${goal.goal.replace(/@%/g, "'")}`}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -156,7 +156,7 @@ export class ReportProgress extends React.Component {
                                         </div>
                                         <span class="spacer"/>
                                         <div style={{width: "33vw"}}>
-                                            <p style={{fontSize: "12px"}}>{goal.goal}</p>
+                                            <p style={{fontSize: "12px"}}>{goal.goal.replace(/@%/g, "'")}</p>
                                         </div>
                                     </div>
                                 </div>

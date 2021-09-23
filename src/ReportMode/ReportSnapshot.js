@@ -101,7 +101,7 @@ export class ReportSnapshot extends React.Component {
                                     <BipChart student={this.state.studentSelected} data={goal.compiled}/>
                                 </div>
                                 <div style={{width: "25%"}}>
-                                    <p>Target Behavior:  When given a non-prefered direction, Tom will swear, make threats, and use physical aggression</p>
+                                    <p>Target Behavior:  {goal.goal.replace(/@%/g, "'")}</p>
                                 </div>
                             </div>
                         </div>
@@ -129,7 +129,7 @@ export class ReportSnapshot extends React.Component {
                                     <IepChart student={this.state.studentSelected} data={goal.compiled}/>
                                 </div>
                                 <div style={{width: "25%"}}>
-                                    <p>{goal.goal}</p>
+                                    <p>{goal.goal.replace(/@%/g, "'")}</p>
                                 </div>
                             </div>
                         </div>
