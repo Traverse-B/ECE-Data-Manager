@@ -172,7 +172,7 @@ export class DataForm extends React.Component {
                 reporter: this.props.login,
                 student_id: this.props.student.student_id || this.props.student.id,
                 data: this.state.present,
-                coteacher: this.props.student.coteacher_login,
+                coteacher: this.props.login === this.props.student.coteacher_login ? this.props.student.teacher_login : this.props.student.coteacher_login,
                 values: this.state.responses
 
             })

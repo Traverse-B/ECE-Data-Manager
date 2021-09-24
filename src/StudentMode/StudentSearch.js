@@ -50,7 +50,11 @@ export class StudentSearch extends React.Component {
         } else if (searchBy === "firstName") {
             searchResults = this.props.students.filter(student => student.first_name.match(regex));
         } else {
-            searchResults = this.props.students.filter(student => student.id.toString().match(regex));
+            searchResults = this.props.students.filter(student => {
+                alert(student.student_id)
+                return student.student_id.toString().match(regex)
+            }
+            );
         }
         this.setState({
             searchResults: searchResults
