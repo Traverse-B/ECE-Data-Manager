@@ -46,10 +46,17 @@ class Main extends React.Component {
     const username = document.getElementById('name').value;
     if (username === 'none') return;
     const password = document.getElementById('password').value;
-    fetch(`${ROUTE}/teachers/${username}`)
+    const options = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+          secret: password
+      })
+  }
+    fetch(`${ROUTE}/teachers/${username}/authenticate`, options)
       .then(res => res.json())
       .then(data => {
-        if (password === data[0].secret) {
+        if (data[0].authenticated) {
           let nextPage = <Choices 
                           user={data[0].name}
                           login={data[0].login}
