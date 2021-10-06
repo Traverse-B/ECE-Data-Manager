@@ -1,6 +1,7 @@
 import './App.css';
 import React from 'react';
 import {NavBar} from './NavBar';
+import {SchoolSelect} from './SchoolSelect'
 import {Landing} from './Landing';
 import {DataMain} from './DataMode/DataMain';
 import {Choices} from './Choices';
@@ -11,7 +12,7 @@ import {TeacherMain} from './TeacherMode/TeacherMain';
 import {ReportMain} from './ReportMode/ReportMain';
 import logo from './logo.svg';
 
-const LOCAL = false;
+const LOCAL = true;
 export const POSTING = true;
 export const ROUTE = LOCAL ? 'http://localhost:3001' : 'https://ece-data-wizard.herokuapp.com';
 
@@ -21,9 +22,10 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
     this.authenticate = this.authenticate.bind(this);
+    this.chooseSchool = this.chooseSchool.bind(this);
     this.state = {
       auth: false,
-      page: <Landing onSubmit={this.authenticate} incorrect={false}/> 
+      page: <SchoolSelect chooseSchool={this.chooseSchool}/> 
     }
     this.handleCompleted = this.handleCompleted.bind(this);
     this.handleChooseData = this.handleChooseData.bind(this);
@@ -78,7 +80,7 @@ class Main extends React.Component {
           })
         } else {
           this.setState({
-            page: <Landing onSubmit={this.authenticate} incorrect={true}/>
+            page: <Landing onSubmit={this.authenticate} incorrect={true} school={this.school}/>
           })
         }
       },
@@ -97,6 +99,13 @@ class Main extends React.Component {
           </header>
         </div>
     )
+  }
+
+  chooseSchool(school) {
+    this.setState({
+      school: school,
+      page: <Landing onSubmit={this.authenticate} school={school}/>
+    })
   }
 
   handleChooseData() {
@@ -220,7 +229,7 @@ class Main extends React.Component {
       userType: false,
       login: false,
       auth: false,
-      page: <Landing onSubmit={this.authenticate} incorrect={false}/>
+      page: <Landing onSubmit={this.authenticate} incorrect={false} school={this.state.school}/>
     })
   }
 

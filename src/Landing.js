@@ -51,11 +51,11 @@ export class Landing extends React.Component {
     render() {
       return ( 
           <header className="App-header">
-            <h1>Seneca ECE-Wizard</h1>
+            <h1>{`${this.props.school} ECE-Wizard`}</h1>
             {this.state.isLoaded && (
               <p>
-                Welcome to Seneca's ECE Data Collection App.
-                Please log in to get started!
+                {`Welcome to ${this.props.school}'s ECE Data Collection App.
+                Please log in to get started!`}
               </p>
             )}
             {this.state.isLoaded ? this.loginForm(this.state.teachers, this.props.onSubmit) : <img src={logo} className="App-logo" alt="logo" />}

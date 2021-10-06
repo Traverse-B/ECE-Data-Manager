@@ -28,7 +28,7 @@ export class Choices extends React.Component {
         if (!this.props.completed) { choiceArray.push(this.choice(
             `Complete Today's Data`, 
             (<div>{`Gotta keep that data rolling in!`} 
-                    <br/> {`(Also, it's the law)`}</div>), this.props.onChooseData)
+                    <br/> {`(Also, it's the law).`}</div>), this.props.onChooseData)
             )
         }
         choiceArray.push(this.choice(
@@ -45,19 +45,19 @@ export class Choices extends React.Component {
                 )
             );
             choiceArray.push(
-                this.choice('Manage Students', 'Create and edit student roster', this.props.onChooseStudents)
+                this.choice('Manage Students', 'Create and edit student roster.', this.props.onChooseStudents)
             );
             choiceArray.push(
                 this.choice(
                     `Progress Monitoring`,
-                    (<div>{'Get an update on progress'}<br/> {`or print a progress report`}</div>),
+                    (<div>{'Get an update on progress'}<br/> {`or print a progress report.`}</div>),
                     this.props.onChooseReport
                 )
             )
         }
         if (this.state.isAdmin) {
             choiceArray.push(
-                this.choice('Manage Teachers', 'Create and edit a teacher roster', this.props.onChooseTeachers)
+                this.choice('Manage Teachers', 'Create and edit a teacher roster.', this.props.onChooseTeachers)
             );    
         }
         const finalArray = [];
